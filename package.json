@@ -1,0 +1,32 @@
+{
+	"name": "cz-smartcontracts",
+	"version": "1.0.0",
+	"description": "Cryptozombies smart contracts",
+	"main": "truffle-config.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"test": "rm -rf build && truffle test",
+		"server": "ganache-cli",
+		"build": "truffle compile",
+		"coverage": "rm -rf build && truffle run coverage",
+		"migrate": "truffle migrate --network ropsten"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/tnguyen42/cz-smartcontracts.git"
+	},
+	"author": "",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/tnguyen42/cz-smartcontracts/issues"
+	},
+	"homepage": "https://github.com/tnguyen42/cz-smartcontracts#readme",
+	"dependencies": {
+		"prettier": "^2.2.1"
+	},
+	"devDependencies": {
+		"solidity-coverage": "^0.7.13"
+	}
+}
