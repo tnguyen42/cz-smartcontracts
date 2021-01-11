@@ -9,8 +9,8 @@ pragma solidity 0.8.0;
 contract ZombieFactory {
 	event NewZombie(uint256 zombieId, string name, uint256 dna);
 
-	uint256 dnaDigits = 16;
-	uint256 dnaModulus = 10**dnaDigits;
+	uint256 private dnaDigits = 16;
+	uint256 private dnaModulus = 10**dnaDigits;
 
 	struct Zombie {
 		string name;
