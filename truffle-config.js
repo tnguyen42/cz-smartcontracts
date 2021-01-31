@@ -18,11 +18,18 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+require("dotenv").config();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+
+// Please set your mnemonic and ropsten_infura_apikey variables in a .env file
+
+// 12 mnemonic words that represents the account that will own the contract (got in Metamask)
+const ropsten_mnemonic = process.env.ropsten_mnemonic;
+const main_mnemonic = process.env.main_mnemonic;
+
+// Infura API key (project ID)
+const ropsten_infura_apikey = process.env.ropsten_infura_apikey;
+const main_infura_apikey = process.env.main_infura_apikey;
 
 module.exports = {
 	/**
@@ -46,6 +53,15 @@ module.exports = {
 			host: process.env.host || "localhost", // Localhost (default: none)
 			port: 8545, // Standard Ethereum port (default: none)
 			network_id: "*", // Any network (default: none)
+		},
+		ropsten: {
+			provider: () =>
+				new HDWalletProvider(
+					ropsten_mnemonic,
+					"https://ropsten.infura.io/v3/" + ropsten_infura_apikey
+				),
+			network_id: "3",
+			gas: 8000000,
 		},
 		// Another network with more advanced options...
 		// advanced: {

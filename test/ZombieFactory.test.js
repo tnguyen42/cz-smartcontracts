@@ -29,12 +29,10 @@ contract("ZombieFactory", function ([user0, user1]) {
 			await this.ZombieFactory.createRandomZombie("MyZombie");
 			const MyZombie = await this.ZombieFactory.zombies.call([0]);
 			const dnaResult = MyZombie[1];
-			console.log(dnaResult);
 
 			let expectedDna = soliditySha3("MyZombie");
 			// Removes "0x" from the hash and converts it to BN, then applies modulo
 			expectedDna = toBN(expectedDna.slice(2)).mod(toBN(10 ** 16));
-			console.log(expectedDna);
 
 			dnaResult.should.be.bignumber.equal(expectedDna);
 		});
