@@ -32,6 +32,12 @@ contract ZombieFeeding is ZombieFactory {
 	address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
 	KittyInterface kittyContract = KittyInterface(ckAddress);
 
+	/**
+	 * @dev A public function that will process the multiplication of a zombie based on its feeding. Only the owner of the zombie can feed it.
+	 * @param _zombieId The id of the zombie to be fed
+	 * @param _targetDna The DNA of the target
+	 * @param _species The species of the food
+	 */
 	function feedAndMultiply(
 		uint256 _zombieId,
 		uint256 _targetDna,
@@ -54,6 +60,11 @@ contract ZombieFeeding is ZombieFactory {
 		_createZombie("NoName", newDna);
 	}
 
+	/**
+	 * @dev A public function that will allow a zombie to feed on kitty
+	 * @param _zombieId The id of the zombie to be fed
+	 * @param _kittyId The id of the kitty (from the CryptoKitties smart contract)
+	 */
 	function feedOnKitty(uint256 _zombieId, uint256 _kittyId) public {
 		uint256 kittyDna;
 		(, , , , , , , , , kittyDna) = kittyContract.getKitty(_kittyId);

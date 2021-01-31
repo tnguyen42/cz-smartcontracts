@@ -24,16 +24,19 @@ contract("ZombieFactory", function ([user0, user1]) {
 			);
 		});
 
+		// TODO: show updated test
 		it("should generate random dna calculated using the name", async () => {
 			await this.ZombieFactory.createRandomZombie("MyZombie");
 			const MyZombie = await this.ZombieFactory.zombies.call([0]);
-			const dnaResult = MyZombie[1].toString();
+			const dnaResult = MyZombie[1];
+			console.log(dnaResult);
 
 			let expectedDna = soliditySha3("MyZombie");
-			// console.log(expectedDna.slice(2));
-			expectedDna = toBN(expectedDna.slice(2)).toString().slice(-16);
+			// Removes "0x" from the hash and converts it to BN, then applies modulo
+			expectedDna = toBN(expectedDna.slice(2)).mod(toBN(10 ** 16));
+			console.log(expectedDna);
 
-			dnaResult.should.equal(expectedDna);
+			dnaResult.should.be.bignumber.equal(expectedDna);
 		});
 	});
 });
