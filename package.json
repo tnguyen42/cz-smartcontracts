@@ -26,6 +26,7 @@
 	},
 	"homepage": "https://github.com/tnguyen42/cz-smartcontracts#readme",
 	"dependencies": {
+		"@openzeppelin/contracts": "^3.3.0",
 		"@truffle/hdwallet-provider": "^1.2.1",
 		"chai": "^4.2.0",
 		"dotenv": "^8.2.0",

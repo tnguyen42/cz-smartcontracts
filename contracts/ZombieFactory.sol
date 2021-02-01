@@ -1,26 +1,31 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.0;
+pragma solidity >=0.6.0 <=0.8.0;
+
+import "./Ownable.sol";
 
 /**
  * @title Zombie Factory
  * @author Thanh-Quy Nguyen
  * @dev With natspecs norm
  */
-contract ZombieFactory {
+contract ZombieFactory is Ownable {
 	event NewZombie(uint256 zombieId, string name, uint256 dna);
 
 	uint256 private dnaDigits = 16;
 	uint256 internal dnaModulus = 10**dnaDigits;
+	uint256 cooldownTime = 1 days;
 
 	struct Zombie {
 		string name;
 		uint256 dna;
+		uint32 level;
+		uint32 readyTime;
 	}
 
 	Zombie[] public zombies;
 
 	mapping(uint256 => address) public zombieToOwner;
-	mapping(address => uint256) private ownerZombieCount;
+	mapping(address => uint256) public ownerZombieCount;
 
 	/**
 	 * @dev A function to create a new zombies
@@ -28,7 +33,9 @@ contract ZombieFactory {
 	 * @param _dna The dna of the new zombie
 	 */
 	function _createZombie(string memory _name, uint256 _dna) internal {
-		zombies.push(Zombie(_name, _dna));
+		zombies.push(
+			Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime))
+		);
 		uint256 id = zombies.length - 1;
 		zombieToOwner[id] = msg.sender;
 		ownerZombieCount[msg.sender]++;
@@ -68,5 +75,13 @@ contract ZombieFactory {
 
 		uint256 randDna = _generateRandomDna(_name);
 		_createZombie(_name, randDna);
+	}
+
+	function _triggerCooldown(Zombie storage _zombie) internal {
+		_zombie.readyTime = uint32(block.timestamp + cooldownTime);
+	}
+
+	function _isReady(Zombie storage _zombie) internal view returns (bool) {
+		return (_zombie.readyTime <= block.timestamp);
 	}
 }

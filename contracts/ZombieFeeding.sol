@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.0;
+pragma solidity >=0.6.0 <=0.8.0;
 
 import "./ZombieFactory.sol";
 
@@ -31,7 +31,7 @@ abstract contract KittyInterface {
 contract ZombieFeeding is ZombieFactory {
 	KittyInterface public kittyContract;
 
-	function setKittyContractAddress(address _address) external {
+	function setKittyContractAddress(address _address) external onlyOwner {
 		kittyContract = KittyInterface(_address);
 	}
 
@@ -45,12 +45,14 @@ contract ZombieFeeding is ZombieFactory {
 		uint256 _zombieId,
 		uint256 _targetDna,
 		string memory _species
-	) public {
+	) internal {
 		require(
 			msg.sender == zombieToOwner[_zombieId],
 			"Only the owner of the zombie can feed it"
 		);
 		Zombie storage myZombie = zombies[_zombieId];
+
+		require(_isReady(myZombie));
 
 		_targetDna = _targetDna % dnaModulus;
 		uint256 newDna = (myZombie.dna + _targetDna) / 2;
@@ -61,6 +63,7 @@ contract ZombieFeeding is ZombieFactory {
 			newDna = newDna - (newDna % 100) + 99;
 		}
 		_createZombie("NoName", newDna);
+		_triggerCooldown(myZombie);
 	}
 
 	/**
