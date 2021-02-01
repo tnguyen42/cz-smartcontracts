@@ -23,7 +23,6 @@ contract("ZombieFactory", function ([user0, user1]) {
 			);
 		});
 
-		// TODO: show updated test
 		it("should generate random dna calculated using the name", async () => {
 			await this.ZombieFactory.createRandomZombie("MyZombie");
 			const MyZombie = await this.ZombieFactory.zombies.call([0]);

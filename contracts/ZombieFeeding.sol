@@ -29,8 +29,11 @@ abstract contract KittyInterface {
  */
 
 contract ZombieFeeding is ZombieFactory {
-	address ckAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
-	KittyInterface kittyContract = KittyInterface(ckAddress);
+	KittyInterface public kittyContract;
+
+	function setKittyContractAddress(address _address) external {
+		kittyContract = KittyInterface(_address);
+	}
 
 	/**
 	 * @dev A public function that will process the multiplication of a zombie based on its feeding. Only the owner of the zombie can feed it.
