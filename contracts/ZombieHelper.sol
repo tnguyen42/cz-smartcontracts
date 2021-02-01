@@ -4,6 +4,8 @@ pragma solidity >=0.6.0 <=0.8.0;
 import "./ZombieFeeding.sol";
 
 contract ZombieHelper is ZombieFeeding {
+	uint256 levelUpFee = 0.001 ether;
+
 	modifier aboveLevel(uint256 _level, uint256 _zombieId) {
 		require(
 			zombies[_zombieId].level >= _level,
@@ -51,5 +53,23 @@ contract ZombieHelper is ZombieFeeding {
 		}
 
 		return result;
+	}
+
+	function levelUp(uint256 _zombieId) external payable {
+		require(
+			msg.value == levelUpFee,
+			"Ethers send doesn't match the levelUpFee"
+		);
+		zombies[_zombieId].level++;
+	}
+
+	// TODO: fix the typecast
+	function withdraw() external onlyOwner {
+		address payable _owner = address(owner());
+		_owner.transfer(address(this).balance);
+	}
+
+	function setLevelUpFee(uint256 _fee) external onlyOwner {
+		levelUpFee = _fee;
 	}
 }
