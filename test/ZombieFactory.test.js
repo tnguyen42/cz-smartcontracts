@@ -3,7 +3,6 @@ require("chai").should();
 const { soliditySha3, toBN } = require("web3-utils");
 
 const { expectRevert } = require("@openzeppelin/test-helpers");
-const { inTransaction } = require("@openzeppelin/test-helpers/src/expectEvent");
 
 const ZombieFactory = artifacts.require("ZombieFactory");
 
