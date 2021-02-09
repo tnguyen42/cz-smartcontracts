@@ -63,6 +63,7 @@ contract ZombieHelper is ZombieFeeding {
 		zombies[_zombieId].level++;
 	}
 
+	// TODO: show payable typecast
 	function withdraw() external onlyOwner {
 		address payable _owner = payable(owner());
 		_owner.transfer(address(this).balance);
