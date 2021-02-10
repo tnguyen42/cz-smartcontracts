@@ -28,6 +28,7 @@ contract ZombieHelper is ZombieFeeding {
 	function changeName(uint256 _zombieId, string calldata _newName)
 		external
 		aboveLevel(2, _zombieId)
+		ownerOf(_zombieId)
 	{
 		require(
 			msg.sender == zombieToOwner[_zombieId],
@@ -44,6 +45,7 @@ contract ZombieHelper is ZombieFeeding {
 	function changeDna(uint256 _zombieId, uint256 _newDna)
 		external
 		aboveLevel(20, _zombieId)
+		ownerOf(_zombieId)
 	{
 		require(
 			msg.sender == zombieToOwner[_zombieId],
@@ -91,7 +93,6 @@ contract ZombieHelper is ZombieFeeding {
 	/**
 	 * @dev A function allowing the owner of the smart contract to withdraw all the funds at the contract's address
 	 */
-	// TODO: show payable typecast
 	function withdraw() external onlyOwner {
 		address payable _owner = payable(owner());
 		_owner.transfer(address(this).balance);
