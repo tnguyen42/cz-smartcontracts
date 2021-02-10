@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.6.0 <=0.8.0;
 
-import "./Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title Zombie Factory
@@ -20,6 +20,8 @@ contract ZombieFactory is Ownable {
 		uint256 dna;
 		uint32 level;
 		uint32 readyTime;
+		uint16 winCount;
+		uint16 lossCount;
 	}
 
 	Zombie[] public zombies;
@@ -34,7 +36,7 @@ contract ZombieFactory is Ownable {
 	 */
 	function _createZombie(string memory _name, uint256 _dna) internal {
 		zombies.push(
-			Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime))
+			Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime), 0, 0)
 		);
 		uint256 id = zombies.length - 1;
 		zombieToOwner[id] = msg.sender;
